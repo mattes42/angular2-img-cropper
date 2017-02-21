@@ -11,6 +11,7 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
+
 import { ImageCropper } from './imageCropper';
 import { CropperSettings } from './cropperSettings';
 import { Exif } from './exif';
@@ -50,6 +51,7 @@ export class ImageCropperComponent implements AfterViewInit, OnChanges {
   public croppedHeight: number;
   public intervalRef: number;
   public renderer: Renderer;
+  private newBounds:Bounds;
 
   private isCropPositionUpdateNeeded: boolean;
 
@@ -157,8 +159,8 @@ export class ImageCropperComponent implements AfterViewInit, OnChanges {
           self.image.original = img;
           let bounds = self.cropper.getCropBounds();
           self.image.image = self.cropper.getCroppedImage().src;
-          if (newBounds != null) {
-            bounds = newBounds;
+          if (this.newBounds != null) {
+            bounds = this.newBounds;
             self.cropper.setBounds(bounds);
           }
           self.onCrop.emit(bounds);
